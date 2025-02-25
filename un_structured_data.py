@@ -1,4 +1,5 @@
 import psycopg2
+import pandas as pd
 import json
 from datetime import datetime
 
@@ -15,13 +16,13 @@ def create_database_and_table():
         conn.autocommit = True  # Necesario para crear una base de datos
         cursor = conn.cursor()
 
-        # Crear la base de datos "cybersecurity_logs" si no existe
-        cursor.execute("SELECT datname FROM pg_database WHERE datname='cybersecurity_logs';")
+        # Crear la base de datos "tarea2" si no existe
+        cursor.execute("SELECT datname FROM pg_database WHERE datname='tarea2';")
         if not cursor.fetchone():
-            cursor.execute("CREATE DATABASE cybersecurity_logs;")
-            print("Base de datos 'cybersecurity_logs' creada correctamente.")
+            cursor.execute("CREATE DATABASE tarea2;")
+            print("Base de datos 'tarea2' creada correctamente.")
         else:
-            print("La base de datos 'cybersecurity_logs' ya existe.")
+            print("La base de datos 'tarea2' ya existe.")
 
         # Cerrar la conexión inicial
         cursor.close()
@@ -29,7 +30,7 @@ def create_database_and_table():
 
         # Conectar a la nueva base de datos
         conn = psycopg2.connect(
-            database="cybersecurity_logs",
+            database="tarea2",
             user="postgres",
             password="postgres",
             host="localhost",
@@ -37,17 +38,17 @@ def create_database_and_table():
         )
         cursor = conn.cursor()
 
-        # Crear la tabla "structured_logs" si no existe
+        # Crear la tabla "tabla2" si no existe
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS structured_logs (
-            id SERIAL PRIMARY KEY,
-            timestamp TIMESTAMP NOT NULL,
-            ip_address VARCHAR(15),
-            event_type VARCHAR(50),
-            description TEXT
+        CREATE TABLE IF NOT EXISTS tabla2 (
+            event_id VARCHAR(36) PRIMARY KEY,
+			timestamp VARCHAR(20),
+			source_ip VARCHAR(15),
+			destination_ip VARCHAR(15),
+			attack_type VARCHAR(50)
         );
         """)
-        print("Tabla 'structured_logs' creada correctamente.")
+        print("Tabla 'tabla2' creada correctamente.")
 
         # Confirmar cambios y cerrar la conexión
         conn.commit()
@@ -58,59 +59,37 @@ def create_database_and_table():
         print(f"Error al crear la base de datos o la tabla: {e}")
 
 # Paso 2: Insertar datos estructurados en la tabla
-def insert_structured_logs():
+def insert_tarea2():
     try:
         # Conectar a la base de datos
         conn = psycopg2.connect(
-            database="cybersecurity_logs",
+            database="tarea2",
             user="postgres",
             password="postgres",
             host="localhost",
             port="5432"
         )
-        cursor = conn.cursor()
+        cur = conn.cursor()
 
-        # Datos de ejemplo para insertar
-        logs = [
-            (datetime(2025, 2, 22, 10, 0, 0), "192.168.1.10", "login_failed", "Intento de inicio de sesión fallido desde IP 192.168.1.10"),
-            (datetime(2025, 2, 22, 10, 5, 0), "192.168.1.15", "access_denied", "Acceso denegado a recurso crítico")
-        ]
+        df = pd.read_csv('ai_ml_cybersecurity_dataset.csv')
 
-        # Insertar registros en la tabla
-        cursor.executemany("""
-        INSERT INTO structured_logs (timestamp, ip_address, event_type, description)
-        VALUES (%s, %s, %s, %s);
-        """, logs)
+        # Insertar los datos fila por fila
+        for index, row in df.head(10).iterrows():
+            cur.execute(
+            "INSERT INTO tabla2 (event_id, timestamp, source_ip, destination_ip, attack_type) VALUES (%s, %s, %s, %s, %s)",
+            (row['Event ID'], row['Timestamp'], row['Source IP'], row['Destination IP'], row['Attack Type'])
+    )
 
         # Confirmar cambios y cerrar la conexión
         conn.commit()
         print("Datos estructurados insertados correctamente.")
-        cursor.close()
+        cur.close()
         conn.close()
 
     except Exception as e:
         print(f"Error al insertar datos estructurados: {e}")
 
-# Paso 3: Guardar logs no estructurados en un archivo JSON
-def save_unstructured_logs():
-    try:
-        # Simulación de logs no estructurados
-        unstructured_logs = [
-            "[2025-02-22 10:10:00] Firewall Alert: Blocked incoming traffic from 10.0.0.1 to port 22.",
-            "[2025-02-22 10:15:00] IDS Alert: Suspicious activity detected from IP 192.168.1.20."
-        ]
-
-        # Guardar logs en un archivo JSON
-        with open("unstructured_logs.json", "w") as file:
-            json.dump(unstructured_logs, file, indent=4)
-
-        print("Logs no estructurados guardados en 'unstructured_logs.json'")
-
-    except Exception as e:
-        print(f"Error al guardar logs no estructurados: {e}")
-
 # Ejecutar todas las funciones
 if __name__ == "__main__":
     create_database_and_table()  # Crear base de datos y tabla
-    insert_structured_logs()     # Insertar datos estructurados
-    save_unstructured_logs()     # Guardar logs no estructurados
+    insert_tarea2()     # Insertar datos estructurados
