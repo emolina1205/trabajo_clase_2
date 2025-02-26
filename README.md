@@ -8,3 +8,27 @@ Ejemplo:
 3) Qué es y que aplicaciones tienen los Datalakes?
 Un data lake es un repositorio centralizado diseñado para almacenar, procesar y proteger grandes volúmenes de datos en su formato original, sin necesidad de preprocesarlos a diferencia de los Data Warehouses, que organizan los datos en estructuras jerárquicas, un data lake utiliza una arquitectura plana que permite almacenar datos estructurados, semiestructurados y no estructurados. Esto lo convierte en una herramienta versátil para almacenar información de cualquier tipo, tamaño o velocidad, y facilitar su acceso para diversos procesos analíticos. 
 Entre las aplicaciones mas comunes de los data lakes se encuentran la analítica de machine learning, inteligencia empresarial, análisis en tiempo real, visualizaciones y la creación de paneles de control. También son esenciales en el procesamiento de grandes volúmenes de datos, como los provenientes de redes sociales, imágenes, voz o datos en streaming, sin que sea necesario transformarlos previamente.
+Análisis Comparativo y Relación:
+•	Propósito y Funcionalidad:
+o	Bases de Datos Vectoriales: Optimizadas para el almacenamiento y recuperación eficiente de datos en forma de vectores, facilitando búsquedas de similitud en aplicaciones de inteligencia artificial.
+o	Data Lakes: Diseñados para almacenar grandes volúmenes de datos en bruto en diversos formatos, sirviendo como repositorios centrales para análisis y procesamiento posteriores.
+•	Estructura de los Datos:
+o	Bases de Datos Vectoriales: Manejan datos transformados en vectores de alta dimensión, representando características específicas de los datos originales.
+o	Data Lakes: Almacenan datos en su formato original, sin transformaciones previas, permitiendo una mayor flexibilidad en su uso futuro.
+•	Casos de Uso:
+o	Bases de Datos Vectoriales: Ideales para aplicaciones que requieren búsquedas rápidas y precisas de similitud, como sistemas de recomendación y análisis semántico.
+o	Data Lakes: Apropiados para organizaciones que necesitan almacenar y analizar grandes volúmenes de datos diversos, facilitando el descubrimiento de insights y el soporte a decisiones estratégicas.
+Mientras que las bases de datos vectoriales se centran en la gestión y consulta eficiente de datos representados como vectores para aplicaciones específicas de inteligencia artificial, los data lakes ofrecen una solución amplia para el almacenamiento y gestión de grandes volúmenes de datos en su forma original, proporcionando una base sólida para diversos tipos de análisis y procesamiento de datos.
+
+Links de consultas:
+•  AWS sobre bases de datos vectoriales
+https://aws.amazon.com/es/what-is/vector-databases/?utm_source=chatgpt.com
+•  IBM sobre bases de datos vectoriales
+https://www.ibm.com/mx-es/topics/vector-database?utm_source=chatgpt.com
+•  DataCamp sobre pgvector y PostgreSQL
+https://www.datacamp.com/es/tutorial/pgvector-tutorial?utm_source=chatgpt.com
+•  AWS sobre Data Lakes
+https://aws.amazon.com/es/what-is/data-lake/?utm_source=chatgpt.com
+•  SAS sobre Data Lakes
+https://www.sas.com/es_co/insights/articles/data-management/what-is-a-data-lake-and-why-does-it-matter-.html?utm_source=chatgpt.com
+
